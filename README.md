@@ -6,17 +6,14 @@
 Kdx is a decentralized application designed to facilitate seamless interactions between users and Payment Financial Institutions (PFIs). The application leverages decentralized identifiers (DIDs) and verifiable credentials (VCs) to enhance user privacy and security while tracking customer satisfaction with various PFIs.
 
 ## Kdx main features
-### Wallet Screen
-![Wallet Screen](kApp/assets/wallet_screen.png)  <!-- Replace with the actual path to your home screen image -->
+### Wallet Screen   ### Service Screen
+![Wallet Screen](kApp/assets/wallet_screen.png)   ![Service Screen](kApp/assets/service_screen.png) 
 
-### Service Screen
-![Service Screen](kApp/assets/service_screen.png)  <!-- Replace with the actual path to your feedback screen image -->
 
 ## Features
 - **Decentralized Identity Management**: Users can create and manage their DIDs and VCs securely.
 - **Customer Feedback System**: Collect and analyze user feedback on PFIs to improve service quality.
 - **Real-Time Satisfaction Tracking**: Users can provide instant feedback after interactions with PFIs.
-- **Incentives for Feedback**: Users are rewarded for participating in surveys and providing feedback.
 - **Data Privacy**: Implement privacy-preserving techniques to protect user identities while collecting valuable insights.
 
 ## Technologies Used
@@ -50,4 +47,4 @@ Kdx is a decentralized application designed to facilitate seamless interactions 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
-For questions or feedback, please reach out to [your.email@example.com](mailto:your.email@example.com).
+For questions or feedback, please reach out to [ehadzah@gmai.com](mailto:your.email@example.com).
