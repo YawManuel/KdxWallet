@@ -1,4 +1,4 @@
-# TBDex Project
+# Kdx. A TBDex Wallet Project
 
 ![Kdx Logo](path/to/your/logo.png)  <!-- Replace with the actual path to your logo image -->
 
@@ -6,10 +6,10 @@
 Kdx is a decentralized application designed to facilitate seamless interactions between users and Payment Financial Institutions (PFIs). The application leverages decentralized identifiers (DIDs) and verifiable credentials (VCs) to enhance user privacy and security while tracking customer satisfaction with various PFIs.
 
 ## Kdx main features
-### Wallet Screen   ### Service Screen
-![Wallet Screen](kApp/assets/wallet_screen.png)   ![Service Screen](kApp/assets/service_screen.png) 
+### Wallet Screen  & Service Screen
+![Wallet Screen](kApp/assets/wallet_screen.png)![Service Screen](kApp/assets/service_screen.png) 
 
-
+G:\App Studio\KdxWallet\README.md
 ## Features
 - **Decentralized Identity Management**: Users can create and manage their DIDs and VCs securely.
 - **Customer Feedback System**: Collect and analyze user feedback on PFIs to improve service quality.
