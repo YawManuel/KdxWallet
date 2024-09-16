@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-const CryptoCard = ({ name, symbol, balance, value, icon, onSend }) => (
+const CryptoCard = ({ name, symbol, balance, value, icon, color, onSend }) => (
   <View style={styles.card}>
     <View style={styles.cardHeader}>
-      <Ionicons name={icon} size={24} color="#4A4A4A" />
+      <FontAwesome5 name={icon} size={24} color={color} />
       <Text style={styles.cardTitle}>{name}</Text>
     </View>
     <Text style={styles.balance}>{balance} {symbol}</Text>
@@ -19,10 +20,12 @@ const CryptoCard = ({ name, symbol, balance, value, icon, onSend }) => (
 
 export default function Wallets() {
   const cryptos = [
-    { name: 'Bitcoin', symbol: 'BTC', balance: '0.5', value: '15,234.56', icon: 'logo-bitcoin' },
-    { name: 'USD Coin', symbol: 'USDC', balance: '1,000', value: '1,000.00', icon: 'logo-usd' },
-    { name: 'Ethereum', symbol: 'ETH', balance: '2.5', value: '4,567.89', icon: 'logo-ethereum' },
-    { name: 'Solana', symbol: 'SOL', balance: '50', value: '2,345.67', icon: 'sunny-outline' },
+    { name: 'Bitcoin', symbol: 'BTC', balance: '0.5', value: '15,234.56', icon: 'bitcoin', color: "gold" },
+    { name: 'USD Coin', symbol: 'USDC', balance: '1,000', value: '1,000.00', icon: 'logo-usd', color: "#FFFFFF" },
+    { name: 'Ethereum', symbol: 'ETH', balance: '1.0', value: '3,000.00', icon: 'ethereum', color: " #497493" }, 
+    { name: 'Ghana Cedis', symbol: 'eCEDIS', balance: '2.5', value: '4,567.89', icon: 'logo-cedi', color: "#000000" },
+    { name: 'Naira', symbol: 'cNGN', balance: '50', value: '2,345.67', icon: 'logo-cNGN', color: "#FF0000" }, // Updated Solana to eNaira
+    { name: 'Celo Kenya Shilling', symbol: 'cKES', balance: '100', value: '1,234.56', icon: 'logo-cKES', color: "#00FF00" }, // Added Celo Kenya Shilling wallet card
   ];
 
   const handleSend = (symbol: string) => {

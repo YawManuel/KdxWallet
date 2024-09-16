@@ -10,14 +10,15 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      initialRouteName="wallets"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
       <Tabs.Screen
-        name="wallets"
+        name="index"
         options={{
-          title: 'Wallets',
+          title: 'Index',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'wallet' : 'wallet'} color={color} />
           ),

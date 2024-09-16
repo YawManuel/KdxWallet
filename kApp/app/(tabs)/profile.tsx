@@ -11,7 +11,7 @@ import { ThemedView } from '@/components/ThemedView';
 
 export default function Profile() {
   const [showAddress, setShowAddress] = useState(false);
-  const walletAddress = '0x1234...5678'; // Example address
+  const walletAddress = 'did:tbd:123456789abcdefghi'; // Example address
   const colorScheme = useColorScheme();
 
   return (
