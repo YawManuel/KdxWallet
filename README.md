@@ -7,7 +7,7 @@ Kdx is a decentralized application designed to facilitate seamless interactions 
 
 ## Kdx main features
 ### Wallet Screen  & Service Screen
-![Wallet Screen](kApp/assets/wallet_screen.png)  ![Service Screen](kApp/assets/service_screen.png) 
+![Wallet Screen](kApp/assets/wallet_screen.png)    ![Service Screen](kApp/assets/service_screen.png) 
 
 
 ## Features
