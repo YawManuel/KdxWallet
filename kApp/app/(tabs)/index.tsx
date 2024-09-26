@@ -22,7 +22,7 @@ export default function Wallets() {
   const cryptos = [
     { name: 'Bitcoin', symbol: 'BTC', balance: '0.5', value: '15,234.56', icon: 'bitcoin', color: "gold" },
     { name: 'USD Coin', symbol: 'USDC', balance: '1,000', value: '1,000.00', icon: 'logo-usd', color: "#FFFFFF" },
-    { name: 'Ethereum', symbol: 'ETH', balance: '1.0', value: '3,000.00', icon: 'ethereum', color: " #497493" }, 
+    // { name: 'Ethereum', symbol: 'ETH', balance: '1.0', value: '3,000.00', icon: 'ethereum', color: " #497493" }, 
     { name: 'Ghana Cedis', symbol: 'eCEDIS', balance: '2.5', value: '4,567.89', icon: 'logo-cedi', color: "#000000" },
     { name: 'Naira', symbol: 'cNGN', balance: '50', value: '2,345.67', icon: 'logo-cNGN', color: "#FF0000" }, // Updated Solana to eNaira
     { name: 'Celo Kenya Shilling', symbol: 'cKES', balance: '100', value: '1,234.56', icon: 'logo-cKES', color: "#00FF00" }, // Added Celo Kenya Shilling wallet card
@@ -35,7 +35,7 @@ export default function Wallets() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>My Wallet</Text>
+      <Text style={styles.header}>My Wallets</Text>
       <Text style={styles.totalBalance}>$23,148.12</Text>
       {cryptos.map((crypto, index) => (
         <CryptoCard key={index} {...crypto} onSend={handleSend} />

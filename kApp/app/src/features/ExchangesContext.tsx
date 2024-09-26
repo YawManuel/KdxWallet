@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { View } from 'react-native' // Import View from react-native
 
 /**
- * This component provides a context to manage Exchangesdata.
+ * This component provides a context to manage Exchanges data.
  *
  * @param {Object} props.children - Child components wrapped by the ExchangesProvider.
  * @param {Object} props.offeringsByCountry - Offerings by country used for displaying in the Offerings page.
@@ -22,7 +23,7 @@ export const ExchangesProvider = ({ children }) => {
         setExchangesUpdated
       }}
     >
-      {children}
+      <View>{children}</View> {/* Use View instead of a div */}
     </ExchangesContext.Provider>
   )
 }

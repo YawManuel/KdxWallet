@@ -4,7 +4,7 @@ import { RfqFormIds, getRfqForms } from './RfqForms'
 import { BackButton } from '../common/BackButton'
 import { Panel } from '../common/Panel'
 import { createExchange } from '../workshop/messageUtils'
-import '../styles/date.css'
+import { View, Text, StyleSheet } from 'react-native' // Updated imports
 import { useRecoilState } from 'recoil'
 import { credentialsState, didState } from '../state'
 import { ExchangesContext } from './ExchangesContext'
@@ -65,27 +65,56 @@ export function RfqModal(props: RfqModalProps) {
   const { title, component } = forms[step]
 
   return (
-    <div className='relative transform overflow-hidden rounded-lg bg-neutral-800 pb-4 pt-5 text-left shadow-xl transition-all w-80 h-auto'>
-      <div className='text-white text-center'>
-        <h2 className='text-xs leading-6'>
+    <View style={styles.container}> // Changed to View
+      <View style={styles.textCenter}> // Changed to View
+        <Text style={styles.title}> // Changed to Text
           { pfiAllowlist.find(pfi => pfi.pfiUri === offering.metadata.from).pfiName }
-        </h2>
-        <h3 className='text-sm font-medium'>
+        </Text>
+        <Text style={styles.description}> // Changed to Text
           {offering.data.description}
-        </h3>
-      </div>
+        </Text>
+      </View>
       {step > 0 && (<BackButton onBack={handleBack}/>)}
 
       <Panel width={'w-80'} height={'h-128'}>
         {!offering ? (
-          <p>Something went wrong with the offering.</p>
+          <Text>Something went wrong with the offering.</Text> // Changed to Text
         ) : (
-          <div className="mt-2 text-gray-500 ">
-            <h3 className='text-white text-lg font-medium px-3'>{title}</h3>
+          <View style={styles.content}> // Changed to View
+            <Text style={styles.componentTitle}>{title}</Text> // Changed to Text
             {component}
-          </div>
+          </View>
         )}
       </Panel>
-    </div>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({ // Added styles
+  container: {
+    // Add styles for the container
+  },
+  textCenter: {
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 12,
+    lineHeight: 18,
+    color: 'white',
+  },
+  description: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'white',
+  },
+  content: {
+    marginTop: 8,
+    color: 'gray',
+  },
+  componentTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '500',
+    paddingHorizontal: 12,
+  },
+})

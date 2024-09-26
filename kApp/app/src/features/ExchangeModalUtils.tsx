@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil'
 import { balanceState } from '../state'
 import { ExchangesContext } from './ExchangesContext'
 import { Spinner } from '../common/Spinner'
+import { View, Text, TouchableOpacity } from 'react-native' // Import React Native components
 
 export const renderActionButtons = (amount, payInCurrency, exchangeId, onClose, didState, pfiUri) => {
   const { setExchangesUpdated } = useContext(ExchangesContext)
@@ -43,40 +44,37 @@ export const renderActionButtons = (amount, payInCurrency, exchangeId, onClose, 
 
   return (
       isUpdating ?
-        <div className="m-2 pl-8 pr-8 flex items-center justify-center gap-x-6">
-        <Spinner></Spinner>
-        </div>
-      : <div className="m-2 pl-8 pr-8 flex items-center justify-end gap-x-6">
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-white"
-            onClick={() => handleUpdateExchange('reject')}
+        <View style={{ margin: 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <Spinner />
+        </View>
+      : <View style={{ margin: 8, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <TouchableOpacity
+            onPress={() => handleUpdateExchange('reject')}
             disabled={isUpdating}
           >
-            Reject
-          </button>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-            onClick={() => handleUpdateExchange('accept')}
+            <Text style={{ fontSize: 14, fontWeight: '600', color: 'white' }}>Reject</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleUpdateExchange('accept')}
             disabled={isUpdating}
+            style={{ backgroundColor: '#4F46E5', padding: 8, borderRadius: 4, marginLeft: 8 }}
           >
-            Pay {TBD(amount).format()}
-          </button>
-        </div>
+            <Text style={{ fontSize: 14, fontWeight: '600', color: 'white' }}>Pay {TBD(amount).format()}</Text>
+          </TouchableOpacity>
+        </View>
   )
 }
 
 export const renderStatusInfo = (status) => {
     return (
-      <>
-        <div className="mt-3 w-5 h-5 bg-white rounded-full flex items-center justify-center focus:outline-none">
+      <View style={{ marginTop: 12, alignItems: 'center' }}>
+        <View style={{ width: 20, height: 20, backgroundColor: 'white', borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
           {getStatusIcon(status)}
-        </div>
-        <div className='mt-2 text-white font-medium'>
+        </View>
+        <Text style={{ marginTop: 8, color: 'white', fontWeight: '500' }}>
           {getStatusText(status)}
-        </div>
-      </>
+        </Text>
+      </View>
     )
 }
 

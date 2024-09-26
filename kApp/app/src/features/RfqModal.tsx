@@ -10,6 +10,7 @@ import { credentialsState, didState } from '../state'
 import { ExchangesContext } from './ExchangesContext'
 import { pfiAllowlist } from '../workshop/allowlist'
 import { PresentationExchange } from '@web5/credentials'
+import { View, Text, StyleSheet } from 'react-native' // Updated imports
 
 type RfqModalProps = {
   onClose: () => void;
@@ -69,27 +70,64 @@ export function RfqModal(props: RfqModalProps) {
   const { title, component } = forms[step]
 
   return (
-    <div className='relative transform overflow-hidden rounded-lg bg-neutral-800 pb-4 pt-5 text-left shadow-xl transition-all w-80 h-auto'>
-      <div className='text-white text-center'>
-        <h2 className='text-xs leading-6'>
+    <View style={styles.container}> // Changed to View
+      <View style={styles.header}> // Changed to View
+        <Text style={styles.title}> // Changed to Text
           { pfiAllowlist.find(pfi => pfi.pfiUri === offering.metadata.from).pfiName }
-        </h2>
-        <h3 className='text-sm font-medium'>
+        </Text>
+        <Text style={styles.description}> // Changed to Text
           {offering.data.description}
-        </h3>
-      </div>
+        </Text>
+      </View>
       {step > 0 && (<BackButton onBack={handleBack}/>)}
 
-      <Panel width={'w-80'} height={'h-128'}>
+      <Panel width={'100%'} height={'100%'}> // Adjusted width/height for React Native
         {!offering ? (
-          <p>Something went wrong with the offering.</p>
+          <Text>Something went wrong with the offering.</Text> // Changed to Text
         ) : (
-          <div className="mt-2 text-gray-500 ">
-            <h3 className='text-white text-lg font-medium px-3'>{title}</h3>
+          <View style={styles.content}> // Changed to View
+            <Text style={styles.formTitle}>{title}</Text> // Changed to Text
             {component}
-          </div>
+          </View>
         )}
       </Panel>
-    </div>
+    </View>
   )
 }
+
+// Styles for React Native
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1F1F1F', // Equivalent to bg-neutral-800
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  header: {
+    alignItems: 'center',
+  },
+  title: {
+    color: 'white',
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  description: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  content: {
+    marginTop: 8,
+    color: '#A0A0A0', // Equivalent to text-gray-500
+  },
+  formTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '500',
+    paddingHorizontal: 12,
+  },
+});

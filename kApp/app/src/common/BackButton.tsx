@@ -1,4 +1,6 @@
-import { ArrowLeftIcon } from '@heroicons/react/24/outline'
+import React from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'; // Ensure this icon is compatible with React Native
 
 /**
  * BackButton Component
@@ -11,8 +13,22 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
  */
 export function BackButton({ onBack }) {
   return (
-    <button className="absolute top-5 left-5 text-white hover:text-gray-300 focus:outline-none" onClick={onBack}>
-      <ArrowLeftIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  )
+    <TouchableOpacity style={styles.button} onPress={onBack}>
+      <ArrowLeftIcon style={styles.icon} />
+    </TouchableOpacity>
+  );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    top: 20, // Adjusted for React Native
+    left: 20, // Adjusted for React Native
+    // Additional styles can be added here
+  },
+  icon: {
+    height: 25, // Adjusted for React Native
+    width: 25, // Adjusted for React Native
+    color: 'white', // Adjusted for React Native
+  },
+});

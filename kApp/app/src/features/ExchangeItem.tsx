@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native' // Updated imports
 import { money, removeTrailingZeros, BTC } from '../currency-utils'
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify' // Consider using a React Native compatible toast library
 import dayjs from 'dayjs'
 import 'dayjs/locale/en'
-import 'react-toastify/dist/ReactToastify.css'
 import { type ClientExchange } from '../api-utils'
 
 type ExchangeItemProps = {
@@ -24,53 +24,52 @@ export function ExchangeItem(props: ExchangeItemProps) {
 
   useEffect(() => {
     if (statusValue) {
-      toast(getStatusString(props.exchange), {
-        toastId: props.exchange.id + '_' + Date.now(),
-        position: 'top-left',
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      })
+      // Update toast notification for React Native
+      // toast(getStatusString(props.exchange), { ... })
     }
     setStatusValue(props.exchange.status)
   }, [props.exchange.status])
 
   return (
-    <>
-    <li className="flex py-1">
-        <button className="w-full h-full rounded-lg px-4 py-1 hover:bg-neutral-600/20 flex" onClick={() => props.handleStatusModalOpen(props.exchange)}>
-          <div className="flex items-center flex-grow pr-2">
-            <div className="flex justify-center items-center w-8 h-8 mt-1 rounded-full bg-indigo-600 text-white text-sm font-semibold">
-              $
-            </div>
-            <div className="min-w-0 truncate text-left pl-3">
-              <p className="truncate text-xs leading-5 text-gray-500">{getStatusString(props.exchange)}</p>
-            </div>
-          </div>
-          { props.exchange.status === 'quote' ? (
-            <>
-              <div className="w-1/5 flex items-center justify-end">
-                <div className="h-auto w-auto mt-1.5 p-2 rounded-lg bg-neutral-700 text-white text-xs flex items-center justify-center">Review</div>
-              </div>
-            </>
-          ) : props.exchange.status === 'completed' || props.exchange.status === 'orderstatus' ? (
-            <>
-              <div className="w-1/5 text-xs font-medium leading-6 text-right pt-2 mr-1 text-gray-500">
-                {removeTrailingZeros(BTC(props.exchange.payoutAmount).format())} {props.exchange.payoutCurrency}
-              </div>
-            </>
-          ) :
-            <div className="w-1/5 text-xs font-medium leading-6 text-right pt-2 mr-1 text-neutral-100"></div>
-          }
-        </button>
-      </li>
-    </>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={() => props.handleStatusModalOpen(props.exchange)}>
+        <View style={styles.innerContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.iconText}>$</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.statusText}>{getStatusString(props.exchange)}</Text>
+          </View>
+        </View>
+        { props.exchange.status === 'quote' ? (
+          <View style={styles.reviewContainer}>
+            <Text style={styles.reviewText}>Review</Text>
+          </View>
+        ) : props.exchange.status === 'completed' || props.exchange.status === 'orderstatus' ? (
+          <Text style={styles.amountText}>
+            {removeTrailingZeros(BTC(props.exchange.payoutAmount).format())} {props.exchange.payoutCurrency}
+          </Text>
+        ) : (
+          <Text style={styles.emptyText}></Text>
+        )}
+      </TouchableOpacity>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: { paddingVertical: 8 },
+  button: { flexDirection: 'row', padding: 10, borderRadius: 8, backgroundColor: '#f0f0f0' },
+  innerContainer: { flexDirection: 'row', flexGrow: 1 },
+  iconContainer: { justifyContent: 'center', alignItems: 'center', width: 32, height: 32, borderRadius: 16, backgroundColor: '#4f46e5' },
+  iconText: { color: 'white', fontSize: 16, fontWeight: '600' },
+  textContainer: { flex: 1, paddingLeft: 10 },
+  statusText: { fontSize: 12, color: '#6b7280' },
+  reviewContainer: { justifyContent: 'center', alignItems: 'flex-end', width: '20%' },
+  reviewText: { backgroundColor: '#374151', color: 'white', padding: 5, borderRadius: 5, fontSize: 10 },
+  amountText: { fontSize: 12, fontWeight: '500', color: '#6b7280', textAlign: 'right' },
+  emptyText: { width: '20%' },
+})
 
 const getStatusString = (exchange) => {
   switch (exchange.status) {

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { RfqContext } from './RfqContext'
 import { NextButton } from '../common/NextButton'
 
@@ -41,84 +42,101 @@ export function RfqAddressPage(props: RecipientPayoutFormProps) {
   }
 
   return (
-    <>
-      <div className='text-xs mt-2 px-3'>Make sure the information is correct.</div>
+    <View style={styles.container}>
+      <Text style={styles.instruction}>Make sure the information is correct.</Text>
       {props.schema.properties.address && (
         <>
-          <label className="sr-only" htmlFor="address">Bitcoin Wallet Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            className="block w-full rounded-md border-0 py-1.5 pr-12 text-white bg-transparent focus:ring-transparent placeholder:text-gray-400 text-sm sm:leading-6"
+          <Text style={styles.label}>Bitcoin Wallet Address</Text>
+          <TextInput
+            style={styles.input}
             placeholder={props.schema.properties.address.title}
-            onChange={(e) => handleInputChange('address', e.target.value)}
-            autoComplete='off'
+            onChangeText={(value) => handleInputChange('address', value)}
+            autoCompleteType='off'
           />
         </>
       )}
       {props.schema.properties.accountNumber && (
         <>
-          <label className="sr-only" htmlFor="accountNumber">Account Number</label>
-          <input
-            type="number"
-            id="accountNumber"
-            name="accountNumber"
-            className="block w-full rounded-md border-0 py-1.5 pr-12 text-white bg-transparent focus:ring-transparent placeholder:text-gray-400 text-sm sm:leading-6"
+          <Text style={styles.label}>Account Number</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
             placeholder={props.schema.properties.accountNumber.title}
-            onChange={(e) => handleInputChange('accountNumber', e.target.value.replace(/[^0-9]/g, ''))}
-            autoComplete='off'
+            onChangeText={(value) => handleInputChange('accountNumber', value.replace(/[^0-9]/g, ''))}
+            autoCompleteType='off'
           />
         </>
       )}
       {props.schema.properties.bankName && (
         <>
-          <label className="sr-only" htmlFor="bankName">Bank Name</label>
-          <input
-            type="text"
-            id="bankName"
-            name="bankName"
-            className="block w-full rounded-md border-0 py-1.5 pr-12 text-white bg-transparent focus:ring-transparent placeholder:text-gray-400 text-sm sm:leading-6"
+          <Text style={styles.label}>Bank Name</Text>
+          <TextInput
+            style={styles.input}
             placeholder={props.schema.properties.bankName.title}
-            onChange={(e) => handleInputChange('bankName', e.target.value)}
-            autoComplete='off'
+            onChangeText={(value) => handleInputChange('bankName', value)}
+            autoCompleteType='off'
           />
         </>
       )}
       {props.schema.properties.phoneNumber && (
         <>
-          <label className="sr-only" htmlFor="phoneNumber">Phone Number</label>
-          <input
-            type="tel" // Recommended for phone numbers for better mobile support
-            id="phoneNumber"
-            name="phoneNumber"
-            className="block w-full rounded-md border-0 py-1.5 pr-12 text-white bg-transparent focus:ring-transparent placeholder:text-gray-400 text-sm sm:leading-6"
+          <Text style={styles.label}>Phone Number</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="phone-pad"
             placeholder={props.schema.properties.phoneNumber.title}
-            onChange={(e) => handleInputChange('phoneNumber', e.target.value.replace(/[^0-9]/g, ''))}
-            autoComplete='off'
+            onChangeText={(value) => handleInputChange('phoneNumber', value.replace(/[^0-9]/g, ''))}
+            autoCompleteType='off'
           />
         </>
       )}
       {props.schema.properties.networkProvider && (
         <>
-          <label className="sr-only" htmlFor="networkProvider">Network Provider</label>
-          <input
-            type="text"
-            id="networkProvider"
-            name="networkProvider"
-            className="block w-full rounded-md border-0 py-1.5 pr-12 text-white bg-transparent focus:ring-transparent placeholder:text-gray-400 text-sm sm:leading-6"
+          <Text style={styles.label}>Network Provider</Text>
+          <TextInput
+            style={styles.input}
             placeholder={props.schema.properties.networkProvider.title}
-            onChange={(e) => handleInputChange('networkProvider', e.target.value)}
-            autoComplete='off'
+            onChangeText={(value) => handleInputChange('networkProvider', value)}
+            autoCompleteType='off'
           />
         </>
       )}
-      <div className="mx-8 fixed inset-x-0 bottom-6 flex flex-col items-center justify-center">
+      <View style={styles.buttonContainer}>
         {isInvalidPayoutDetails && hasAttemptedNext && (
-          <p className="text-sm text-red-600 mb-2">Improper payout details</p>
+          <Text style={styles.errorText}>Improper payout details</Text>
         )}
         <NextButton disabled={isInvalidPayoutDetails} onNext={handleNext} />
-      </div>
-    </>
+      </View>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+  instruction: {
+    fontSize: 12,
+    marginBottom: 8,
+  },
+  label: {
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    marginBottom: 12,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 8,
+  },
+})

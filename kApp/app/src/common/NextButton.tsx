@@ -1,14 +1,24 @@
+import { TouchableOpacity, Text } from 'react-native';
+
 export function NextButton({ onNext, disabled }) {
   return (
     <>
-      <button
+      <TouchableOpacity
         disabled={disabled}
-        type='submit'
-        className="rounded-2xl bg-indigo-500 w-full px-3 py-2 text-sm font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-        onClick={onNext}
+        onPress={onNext}
+        style={{
+          borderRadius: 20,
+          backgroundColor: disabled ? 'rgba(99, 102, 241, 0.5)' : '#6366F1',
+          width: '100%',
+          paddingVertical: 10,
+          paddingHorizontal: 15,
+          alignItems: 'center',
+        }}
       >
-        Next
-      </button>
+        <Text style={{ color: 'white', fontWeight: '600', fontSize: 14 }}>
+          Next
+        </Text>
+      </TouchableOpacity>
     </>
-  )
+  );
 }

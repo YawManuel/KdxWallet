@@ -1,7 +1,9 @@
+import React from 'react'; // Added import for React
 import { Offering } from '@tbdex/http-client'
 import { RfqAddressPage } from './RfqAddressPage'
 import { PayinPage } from './RfqPayinPage'
 import { ReviewPage } from './RfqReviewPage'
+import { View } from 'react-native'; // Added import for View
 
 export enum RfqFormIds {
   Payin = 'payin',
@@ -22,24 +24,32 @@ export const getRfqForms = (offering: Offering, handleNext, handleBack) => {
     {
       title: '',
       component: (
-        <PayinPage onNext={handleNext} />
+        <View> {/* Wrapped in View for React Native */}
+          <PayinPage onNext={handleNext} />
+        </View>
       ),
       id: RfqFormIds.Payin
     },
     {
       title: 'Enter delivery details',
       component: (
-        <RfqAddressPage
-          schema={offering.data.payout.methods[0].requiredPaymentDetails}
-          onBack={handleBack}
-          onNext={handleNext}
-        />
+        <View> {/* Wrapped in View for React Native */}
+          <RfqAddressPage
+            schema={offering.data.payout.methods[0].requiredPaymentDetails}
+            onBack={handleBack}
+            onNext={handleNext}
+          />
+        </View>
       ),
       id: RfqFormIds.BtcAddress
     },
     {
       title: 'Review your request',
-      component: <ReviewPage onBack={handleBack} onSubmit={handleNext} />,
+      component: (
+        <View> {/* Wrapped in View for React Native */}
+          <ReviewPage onBack={handleBack} onSubmit={handleNext} />
+        </View>
+      ),
       id: RfqFormIds.Review
     }
   ]

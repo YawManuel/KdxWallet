@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { View, Text, Button, FlatList, Modal, Image, ActivityIndicator } from 'react-native'
+import { ChevronRightIcon } from 'react-native-heroicons/outline' // Adjust import for React Native
 import { RfqModal } from './RfqModal.tsx'
 import { RfqProvider } from './RfqContext.tsx'
-import { Spinner } from '../common/Spinner.tsx'
 import { fetchOfferings } from '../api-utils.js'
-import bitcoinIcon from '../assets/bitcoin.svg'
+import bitcoinIcon from '../assets/bitcoin.png' // Use .png for React Native
 import { Offering } from '@tbdex/http-client'
 import { pfiAllowlist } from '../workshop/allowlist.ts'
 
 export function Offerings() {
   const [offerings, setOfferings] = useState<Offering[]>(undefined)
   const [selectedOffering, setSelectedOffering] = useState<string | undefined>()
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -26,87 +26,66 @@ export function Offerings() {
         setOfferings(null)
       }
     }
-      init()
+    init()
   }, [])
 
   const handleModalOpen = (offering) => {
     setSelectedOffering(offering)
-    dialogRef.current?.showModal()
+    setModalVisible(true)
   }
 
   const handleModalClose = () => {
     setSelectedOffering(undefined)
+    setModalVisible(false)
   }
 
-  if (offerings === undefined) return <Spinner />
+  if (offerings === undefined) return <ActivityIndicator />
 
   if (offerings === null) {
     return (
-      <div className="min-w-0 truncate text-center">
-        <h3 className="text-xs font-medium leading-6 text-neutral-100 mt-3">Failed to load</h3>
-        <p className="truncate text-xs leading-5 text-gray-500">There was an error trying to loading offerings.</p>
-      </div>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Failed to load</Text>
+        <Text>There was an error trying to load offerings.</Text>
+      </View>
     )
   }
 
-
   return (
     <>
-      { offerings.length === 0 ? (
-          <div className="min-w-0 truncate text-center">
-            <h4 className="text-xs font-medium leading-6 text-neutral-100 mt-3">No offerings found</h4>
-            <p className="truncate text-xs leading-5 text-gray-500">Check back later.</p>
-          </div>
-        ) : (
-        <ul role="list" className="divide-y divide-transparent">
-          {offerings.map((offering, ind) => (
-            <li key={ind} className="py-1">
-              <button
-                className={`w-full h-full rounded-lg px-4 py-1 flex`}
-                onClick={() => handleModalOpen(offering)}
-              >
-                <div className="flex items-center flex-grow pr-2">
-                  <div className="flex justify-center items-center w-8 h-8 mt-0.5 rounded-lg bg-neutral-600 text-white text-sm font-semibold">
-                    <img
-                        src={bitcoinIcon}
-                        alt="bitcoin icon"
-                        style={{ filter: 'var(--color-primary-yellow-filter)' }}
-                      />
-                  </div>
-                  <div className="min-w-0 truncate text-left pl-3">
-                    <p className="text-xs font-medium leading-5 text-neutral-100">
-                      { pfiAllowlist.find(pfi => pfi.pfiUri === offering.metadata.from).pfiName }
-                    </p>
-                    <p className="text-xs font-medium leading-6 text-neutral-100">
-                      {offering.data.description}
-                    </p>
-                    <p className="truncate text-xs leading-5 text-gray-500">
-                      {offering.data.payoutUnitsPerPayinUnit} {offering.data.payout.currencyCode} for 1 {offering.data.payin.currencyCode}
-                    </p>
-                  </div>
-                </div>
-                <ChevronRightIcon
-                  className="h-5 w-5 flex-none text-indigo-600 ml-1 mt-3"
-                  aria-hidden="true"
-                />
-              </button>
-            </li>
-          ))}
-        </ul>
+      {offerings.length === 0 ? (
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text>No offerings found</Text>
+          <Text>Check back later.</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={offerings}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={{ padding: 10 }}>
+              <Button
+                title={item.data.description}
+                onPress={() => handleModalOpen(item)}
+              />
+              <Image
+                source={bitcoinIcon}
+                style={{ width: 32, height: 32 }}
+              />
+              <Text>{pfiAllowlist.find(pfi => pfi.pfiUri === item.metadata.from).pfiName}</Text>
+              <Text>{item.data.payoutUnitsPerPayinUnit} {item.data.payout.currencyCode} for 1 {item.data.payin.currencyCode}</Text>
+              <ChevronRightIcon />
+            </View>
+          )}
+        />
       )}
 
-        <dialog ref={dialogRef} className='fixed bg-transparent' onClick={(e) => {
-          if (e.target === dialogRef.current) {
-            dialogRef.current.close()
-          }
-        }} onClose={handleModalClose}>
-          { selectedOffering && (
-            <RfqProvider offering={selectedOffering}>
-              <RfqModal onClose={handleModalClose}/>
-            </RfqProvider>
-          )}
-        </dialog>
-
+      <Modal visible={modalVisible} onRequestClose={handleModalClose}>
+        {selectedOffering && (
+          <RfqProvider offering={selectedOffering}>
+            <RfqModal onClose={handleModalClose} />
+          </RfqProvider>
+        )}
+      </Modal>
     </>
   )
 }

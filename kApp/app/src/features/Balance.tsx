@@ -2,6 +2,7 @@ import { useRecoilState } from 'recoil'
 import { balanceState } from '../state'
 import { Spinner } from '../common/Spinner'
 import { TBD } from '../currency-utils'
+import { View, Text } from 'react-native' // Import React Native components
 
 export function Balance() {
   const [accountBalance] = useRecoilState(balanceState)
@@ -9,14 +10,14 @@ export function Balance() {
   return (
     <>
       {accountBalance === undefined ? ( 
-        <div className='mt-4'><Spinner /></div>
+        <View style={{ marginTop: 16 }}><Spinner /></View> // Use View instead of div
       ) : accountBalance === null ? (
-        <div className="min-w-0 truncate text-center">
-          <h3 className="text-xs font-medium leading-6 text-neutral-100 mt-3">Failed to load</h3>
-          <p className="truncate text-xs leading-5 text-gray-500">There was an error trying to load your balance.</p>
-        </div>
+        <View style={{ minWidth: 0, alignItems: 'center' }}> // Use View instead of div
+          <Text style={{ fontSize: 12, fontWeight: '500', color: '#FFFFFF', marginTop: 12 }}>Failed to load</Text> // Use Text instead of h3
+          <Text style={{ fontSize: 12, color: '#A0A0A0' }}>There was an error trying to load your balance.</Text> // Use Text instead of p
+        </View>
       ) : (
-        <div className="mt-2 mb-3 text-3xl font-semibold text-gray-200">{TBD(accountBalance).format()}</div>
+        <Text style={{ marginTop: 8, marginBottom: 12, fontSize: 24, fontWeight: '600', color: '#D0D0D0' }}>{TBD(accountBalance).format()}</Text> // Use Text instead of div
       )}
     </>
   )

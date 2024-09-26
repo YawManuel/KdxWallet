@@ -1,57 +1,61 @@
-import { didState, credentialsState } from '../state'
+import React, { useRef } from 'react'
+import { View, TextInput, Button, StyleSheet } from 'react-native'
 import { useRecoilState } from 'recoil'
-import { FaAddressCard } from 'react-icons/fa'
-import { useRef } from 'react'
+import { didState, credentialsState } from '../state'
 import { requestCredentialFromIssuer } from '../api-utils'
-import { useNavigate } from 'react-router-dom'
-
-
+import { useNavigation } from '@react-navigation/native'
 
 export function GetCredentialPage() {
-  const navigate = useNavigate()
+  const navigation = useNavigation()
   const [did] = useRecoilState(didState)
   const [credentials, setCredentials] = useRecoilState(credentialsState)
 
-  const formRef = useRef<HTMLFormElement>(null)
+  const customerNameRef = useRef(null)
+  const countryCodeRef = useRef(null)
 
-  const getCredentials = async (e) => {
-    e.preventDefault()
-    const formData = new FormData(formRef.current)
-    const credential = await requestCredentialFromIssuer(did.uri, formData.get('customerName'), formData.get('countryCode'))
+  const getCredentials = async () => {
+    const customerName = customerNameRef.current.value
+    const countryCode = countryCodeRef.current.value
+    const credential = await requestCredentialFromIssuer(did.uri, customerName, countryCode)
     setCredentials([...credentials, credential])
-    navigate('/')
+    navigation.navigate('Home') // Adjust the route name as necessary
   }
 
   return (
-    <div className="flex items-center justify-center" style={{ height: '100dvh' }}>
-      <form ref={formRef} onSubmit={(e) => getCredentials(e)} className="text-center">
-        <label className="sr-only" htmlFor="countryCode">Your name</label>
-        <input
-          className="block w-full p-3 text-2xl mb-4 border-2 text-white bg-neutral-800 rounded-md focus:text-white placeholder:text-gray-400 focus:ring-transparent sm:leading-6"
-          required
-          id="customerName"
-          name="customerName"
-          placeholder="Name (eg. John Doe)"
-          maxLength={20}
-          autoComplete='off' />
-        <label className="sr-only" htmlFor="countryCode">Country code</label>
-        <input
-          className="block w-full p-3 text-2xl mb-4 border-2 text-white bg-neutral-800 rounded-md focus:text-white placeholder:text-gray-400 focus:ring-transparent sm:leading-6"
-          required
-          id="countryCode"
-          name="countryCode"
-          placeholder="Country code (eg. GH)"
-          maxLength={2}
-          autoComplete='off' />
-        <button
-          type="submit"
-          className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-        <FaAddressCard className="-ml-0.5 h-5 w-5" aria-hidden="true" />
-        Get Credentials
-      </button>
-      </form>
-
-    </div>
+    <View style={styles.container}>
+      <TextInput
+        ref={customerNameRef}
+        style={styles.input}
+        placeholder="Name (eg. John Doe)"
+        maxLength={20}
+        autoCompleteType='off'
+      />
+      <TextInput
+        ref={countryCodeRef}
+        style={styles.input}
+        placeholder="Country code (eg. GH)"
+        maxLength={2}
+        autoCompleteType='off'
+      />
+      <Button title="Get Credentials" onPress={getCredentials} />
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    width: '80%',
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    backgroundColor: '#333',
+    color: 'white',
+  },
+})

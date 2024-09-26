@@ -1,37 +1,80 @@
-import { Exchanges } from './Exchanges'
-import { Panel } from '../common/Panel'
-import { Offerings } from './Offerings'
-import { Credentials } from './Credentials'
-import { Balance } from './Balance'
-import { ExchangesProvider } from './ExchangesContext'
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Exchanges } from './Exchanges';
+import { Panel } from '../common/Panel';
+import { Offerings } from './Offerings';
+import { Credentials } from './Credentials';
+import { Balance } from './Balance';
+import { ExchangesProvider } from './ExchangesContext';
 
 export function ActivityPage() {
   return (
-    <>
-      <h1 className="sr-only">My tbDEX Wallet</h1>
-      <Panel width={'w-11/12'} height={'h-auto'}>
-        <div className="text-center w-full rounded-md bg-transparent px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm">
-          <h2 className="mt-2 text-sm font-semibold text-gray-200">TBDollars Balance</h2>
+    <View style={styles.container}>
+      <Text style={styles.hiddenTitle}>My tbDEX Wallet</Text>
+      <Panel>
+        <View style={styles.balanceContainer}>
+          <Text style={styles.balanceTitle}>TBDollars Balance</Text>
           <Balance />
-        </div>
+        </View>
       </Panel>
-      <Panel width={'w-11/12'} height={'h-auto'}>
-        <h2 className='mb-4'>Credentials</h2>
+      <Panel>
+        <Text style={styles.credentialsTitle}>Credentials</Text>
         <Credentials />
       </Panel>
       <ExchangesProvider>
-        <Panel width={'w-11/12'} height={'h-auto'}>
-          <h2 className='mb-4'>Transactions</h2>
-          <Exchanges/>
+        <Panel>
+          <Text style={styles.transactionsTitle}>Transactions</Text>
+          <Exchanges />
         </Panel>
-        <Panel width={'w-11/12'} height={'h-auto'}>
-          <div className="flex flex-col items-center">
-            <h2 className='pt-4 text-center'>Offerings</h2>
-            <p className='pb-6 text-center text-xs text-gray-500'>What would you like to exchange TBDollars for?</p>
-          </div>
+        <Panel>
+          <View style={styles.offeringsContainer}>
+            <Text style={styles.offeringsTitle}>Offerings</Text>
+            <Text style={styles.offeringsDescription}>What would you like to exchange TBDollars for?</Text>
+          </View>
           <Offerings />
         </Panel>
       </ExchangesProvider>
-    </>
-  )
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  hiddenTitle: {
+    position: 'absolute',
+    opacity: 0,
+  },
+  balanceContainer: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  balanceTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#D1D5DB', // equivalent to text-gray-200
+  },
+  credentialsTitle: {
+    marginBottom: 16,
+  },
+  transactionsTitle: {
+    marginBottom: 16,
+  },
+  offeringsContainer: {
+    alignItems: 'center',
+  },
+  offeringsTitle: {
+    paddingTop: 16,
+    textAlign: 'center',
+  },
+  offeringsDescription: {
+    paddingBottom: 24,
+    textAlign: 'center',
+    fontSize: 12,
+    color: '#6B7280', // equivalent to text-gray-500
+  },
+});

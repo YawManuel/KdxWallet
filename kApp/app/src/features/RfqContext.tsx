@@ -1,5 +1,6 @@
 import { Offering } from '@tbdex/http-client'
 import React, { useState } from 'react'
+import { View } from 'react-native' // Import View from react-native
 
 /**
  * This component provides a context to manage RFQ (Request for Quote) data.
@@ -35,7 +36,7 @@ export const RfqProvider = ({ children, offering }) => {
         setPaymentDetails
       }}
     >
-      {children}
+      <View>{children}</View> {/* Use View to wrap children in React Native */}
     </RfqContext.Provider>
   )
 }
