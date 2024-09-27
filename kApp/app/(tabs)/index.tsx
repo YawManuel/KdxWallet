@@ -13,7 +13,7 @@ const CryptoCard = ({ name, symbol, balance, value, icon, color, onSend }) => (
     <Text style={styles.value}>${value}</Text>
     <TouchableOpacity style={styles.sendButton} onPress={() => onSend(symbol)}>
       <Ionicons name="send-outline" size={18} color="#FFFFFF" />
-      <Text style={styles.sendButtonText}>Send</Text>
+      <Text style={styles.sendButtonText}>Transact</Text>
     </TouchableOpacity>
   </View>
 );
@@ -23,8 +23,8 @@ export default function Wallets() {
     { name: 'Bitcoin', symbol: 'BTC', balance: '0.5', value: '15,234.56', icon: 'bitcoin', color: "gold" },
     { name: 'USD Coin', symbol: 'USDC', balance: '1,000', value: '1,000.00', icon: 'logo-usd', color: "#FFFFFF" },
     // { name: 'Ethereum', symbol: 'ETH', balance: '1.0', value: '3,000.00', icon: 'ethereum', color: " #497493" }, 
-    { name: 'Ghana Cedis', symbol: 'eCEDIS', balance: '2.5', value: '4,567.89', icon: 'logo-cedi', color: "#000000" },
-    { name: 'Naira', symbol: 'cNGN', balance: '50', value: '2,345.67', icon: 'logo-cNGN', color: "#FF0000" }, // Updated Solana to eNaira
+    { name: 'Ghana eCedis', symbol: 'eCEDIS', balance: '2.5', value: '4,567.89', icon: '', color: "#000000" },
+    { name: 'e-Naira', symbol: 'cNGN', balance: '50', value: '2,345.67', icon: 'logo-cNGN', color: "#FF0000" }, // Updated Solana to eNaira
     { name: 'Celo Kenya Shilling', symbol: 'cKES', balance: '100', value: '1,234.56', icon: 'logo-cKES', color: "#00FF00" }, // Added Celo Kenya Shilling wallet card
   ];
 
