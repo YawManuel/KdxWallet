@@ -2,8 +2,20 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
-const CryptoCard = ({ name, symbol, balance, value, icon, color, onSend }) => (
+type CryptoCardProps = {
+  name: string;
+  symbol: string;
+  balance: string;
+  value: string;
+  icon: string;
+  color: string;
+  onSend: (symbol: string) => void;
+  navigation: any; // Replace 'any' with the appropriate type if known
+};
+
+const CryptoCard: React.FC<CryptoCardProps> = ({ name, symbol, balance, value, icon, color, onSend, navigation }) => (
   <View style={styles.card}>
     <View style={styles.cardHeader}>
       <FontAwesome5 name={icon} size={24} color={color} />
@@ -11,7 +23,13 @@ const CryptoCard = ({ name, symbol, balance, value, icon, color, onSend }) => (
     </View>
     <Text style={styles.balance}>{balance} {symbol}</Text>
     <Text style={styles.value}>${value}</Text>
-    <TouchableOpacity style={styles.sendButton} onPress={() => onSend(symbol)}>
+    <TouchableOpacity 
+      style={styles.sendButton} 
+      onPress={() => {
+        navigation.navigate('wallet');
+        onSend(symbol);
+      }}
+    > 
       <Ionicons name="send-outline" size={18} color="#FFFFFF" />
       <Text style={styles.sendButtonText}>Transact</Text>
     </TouchableOpacity>
@@ -19,6 +37,7 @@ const CryptoCard = ({ name, symbol, balance, value, icon, color, onSend }) => (
 );
 
 export default function Wallets() {
+  const navigation = useNavigation(); // Define navigation
   const cryptos = [
     { name: 'Bitcoin', symbol: 'BTC', balance: '0.5', value: '15,234.56', icon: 'bitcoin', color: "gold" },
     { name: 'USD Coin', symbol: 'USDC', balance: '1,000', value: '1,000.00', icon: 'logo-usd', color: "#FFFFFF" },
@@ -38,7 +57,7 @@ export default function Wallets() {
       <Text style={styles.header}>My Wallets</Text>
       <Text style={styles.totalBalance}>$23,148.12</Text>
       {cryptos.map((crypto, index) => (
-        <CryptoCard key={index} {...crypto} onSend={handleSend} />
+        <CryptoCard key={index} {...crypto} onSend={handleSend} navigation={navigation} />
       ))}
     </ScrollView>
   );
